@@ -1,4 +1,9 @@
-import { screen, render } from "@testing-library/react";
+import {
+  screen,
+  render,
+  fireEvent,
+  within,
+} from "@testing-library/react";
 
 import Broker from "./Broker";
 
@@ -9,15 +14,25 @@ const testBroker = {
 };
 
 describe("Broker Component", () => {
+  beforeEach(() => {
+    render(<Broker broker={testBroker} onSelect={jest.fn()} />);
+  });
+
   test("should hide and show appointments on button click", () => {
-    render(<Broker broker={testBroker} />);
+    let appointmentsList = screen.queryByTestId("broker-appointments-list");
+    expect(appointmentsList).toBeNull();
 
     const showAppointmentsButton = screen.getByTestId(
       "broker-show-appointments-button"
     );
-    const hideAppointmentsButton = screen.getByTestId(
-      "broker-hide-appointments-button"
-    );
-    const appointmentsList = screen.getByTestId("broker-appointments-list");
+
+    fireEvent.click(showAppointmentsButton);
+
+    appointmentsList = screen.getByTestId("broker-appointments-list");
+    const { getAllByRole } = within(appointmentsList);
+    const items = getAllByRole("listitem");
+
+    expect(items.length).toBe(1);
+    expect(items[0].textContent).toEqual("24/11/2021");
   });
 });

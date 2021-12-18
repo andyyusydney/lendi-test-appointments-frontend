@@ -17,11 +17,11 @@ const Broker = ({ broker, onSelect }: BrokerProps) => {
       {broker.appointments.length > 0 && (
         <>
           appointments:
-          <button onClick={toggle}>
+          <button onClick={toggle} data-testid={isShow ? 'broker-hide-appointments-button' : 'broker-show-appointments-button'}>
             {isShow ? "Hide" : "Show"} appointments
           </button>
           {isShow && (
-            <ul>
+            <ul data-testid="broker-appointments-list">
               {broker.appointments.length > 0 &&
                 broker.appointments.map((appointment: Appointment) => (
                   <li onClick={() => onSelect(broker.id, appointment.id)} key={appointment.id}>{appointment.date}</li>
