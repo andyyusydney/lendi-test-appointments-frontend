@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface SelectedBrokerAppointmentSlice {
+export interface SelectedBrokerAppointment {
   brokerName: string;
   appointmentDate: string;
 }
 
-const initialState = {} as SelectedBrokerAppointmentSlice;
+const initialState = {} as SelectedBrokerAppointment;
 
 const selectedBrokerAppointmentSlice = createSlice({
   name: "selectedBrokerAppointment",
@@ -13,7 +13,7 @@ const selectedBrokerAppointmentSlice = createSlice({
   reducers: {
     setSelectedBrokerAppointment(
       state,
-      action: PayloadAction<SelectedBrokerAppointmentSlice>
+      action: PayloadAction<SelectedBrokerAppointment>
     ) {
       return { ...action.payload };
     },

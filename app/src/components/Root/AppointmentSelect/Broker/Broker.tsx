@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { setSelectedBrokerAppointment } from "../../../../redux/selectedBrokerAppointmentSlice";
-import { AppDispatch, RootState } from "../../../../redux/store";
+import { AppDispatch } from "../../../../redux/store";
 import { Appointment, BrokerAppointment } from "../AppointmentSelect";
 
 export interface BrokerProps {
@@ -11,31 +11,22 @@ export interface BrokerProps {
 const Broker = ({ broker }: BrokerProps) => {
   const [isShow, setIsShow] = useState<boolean>(false);
   const toggle = () => setIsShow(!isShow);
-  const brokersAppointments = useSelector(
-    (state: RootState) => state.brokersAppointments
-  );
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSelect = (brokerId: number, appointmentId: number | undefined) => {
-    const selectedBroker = brokersAppointments.find(
-      (brokerAppointment: BrokerAppointment) =>
-        brokerAppointment.id === brokerId
-    );
-
-    if (selectedBroker) {
-      const selectedAppointment = selectedBroker.appointments.find(
+  const onSelect = (appointmentId: number) => {
+      const selectedAppointment = broker.appointments.find(
         (appointment: Appointment) => appointment.id === appointmentId
       );
 
       if (selectedAppointment) {
         dispatch(
           setSelectedBrokerAppointment({
-            brokerName: selectedBroker.name,
+            brokerName: broker.name,
             appointmentDate: selectedAppointment.date,
           })
         );
       }
-    }
   };
 
   return (
@@ -59,7 +50,7 @@ const Broker = ({ broker }: BrokerProps) => {
             <ul data-testid="broker-appointments-list">
               {broker.appointments.map((appointment: Appointment) => (
                 <li
-                  onClick={() => onSelect(broker.id, appointment.id)}
+                  onClick={() => onSelect(appointment.id)}
                   key={appointment.id}
                 >
                   {appointment.date}

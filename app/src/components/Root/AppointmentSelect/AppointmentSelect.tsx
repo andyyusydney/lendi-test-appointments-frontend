@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { setbrokersAppointments } from "../../../redux/brokersAppointmentsSlice";
-import { setSelectedBrokerAppointment } from "../../../redux/selectedBrokerAppointmentSlice";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 
 import Broker from "./Broker";
 
@@ -37,27 +35,31 @@ export interface BrokerAppointment extends Broker {
 }
 
 const AppointmentSelect = () => {
-  const appState = useSelector((state: RootState) => state);
-  const dispatch = useDispatch<AppDispatch>();
+  const [brokersAppointments, setBrokersAppointments] = useState<
+    BrokerAppointment[]
+  >([]);
+  const selectedBrokerAppointment = useSelector(
+    (state: RootState) => state.selectedBrokerAppointment
+  );
 
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8080/brokers"),
       axios.get("http://localhost:8080/appointments"),
     ]).then(([brokersData, appointmentsData]) => {
-      if (brokersData?.data?.length > 0) {
-        const brokerAppointmentsData: BrokerAppointment[] =
+      if (brokersData.data?.length > 0) {
+        const brokersAppointmentsData: BrokerAppointment[] =
           brokersData.data.map((broker: Broker) => ({
             id: broker.id,
             name: broker.name,
             appointments:
-              appointmentsData?.data?.length > 0 &&
+              appointmentsData.data?.length > 0 &&
               appointmentsData.data.filter(
                 (appointment: Appointment) => appointment.brokerId === broker.id
               ),
           }));
 
-        dispatch(setbrokersAppointments(brokerAppointmentsData));
+        setBrokersAppointments(brokersAppointmentsData);
       }
     });
   }, []);
@@ -67,19 +69,19 @@ const AppointmentSelect = () => {
       <SideBar>
         <Heading>Amazing site</Heading>
         <ul>
-          {appState.brokersAppointments.length > 0 &&
-            appState.brokersAppointments.map((broker: BrokerAppointment) => (
+          {brokersAppointments.length > 0 &&
+            brokersAppointments.map((broker: BrokerAppointment) => (
               <Broker key={broker.id} broker={broker} />
             ))}
         </ul>
       </SideBar>
       <div>
         <Heading>Appointment details</Heading>
-        {appState.selectedBrokerAppointment && (
+        {selectedBrokerAppointment && (
           <>
-            <p>Broker's name: {appState.selectedBrokerAppointment?.brokerName}</p>
+            <p>Broker's name: {selectedBrokerAppointment.brokerName}</p>
             <p>
-              Appointment Date: {appState.selectedBrokerAppointment?.appointmentDate}
+              Appointment Date: {selectedBrokerAppointment.appointmentDate}
             </p>
           </>
         )}
