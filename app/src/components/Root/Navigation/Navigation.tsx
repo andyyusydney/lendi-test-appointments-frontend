@@ -1,5 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { RootState } from "../../../redux/store";
 
 const Wrapper = styled.div`
   background-color: #e7e7e7;
@@ -12,10 +14,20 @@ const Wrapper = styled.div`
 `;
 
 const Navigation = () => {
+  const selectedBrokerAppointment = useSelector(
+    (state: RootState) => state.selectedBrokerAppointment
+  );
+
   return (
     <Wrapper>
       <strong>
-        Currently selected appointment: [appointment date] with [broker name]
+        Currently selected appointment:
+        {selectedBrokerAppointment.appointmentDate &&
+          selectedBrokerAppointment.brokerName && (
+            <>
+              {selectedBrokerAppointment.appointmentDate} with {selectedBrokerAppointment.brokerName}
+            </>
+          )}
       </strong>
       <strong>Welcome to Lendi</strong>
     </Wrapper>

@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import Navigation from "./Navigation";
 import AppointmentSelect from "./AppointmentSelect";
+import { Provider } from "react-redux";
+import { store } from "../../redux/store";
 
 const Wrapper = styled.div`
   background-color: #fcfcfc;
@@ -29,11 +31,13 @@ const Heading = styled.strong.attrs({ role: "heading", level: 1 })`
 const Root = () => {
   return (
     <Wrapper>
-      <Navigation />
-      <Content>
-        <Heading>Amazing site</Heading>
-        <AppointmentSelect />
-      </Content>
+      <Provider store={store}>
+        <Navigation />
+        <Content>
+          <Heading>Amazing site</Heading>
+          <AppointmentSelect />
+        </Content>
+      </Provider>
     </Wrapper>
   );
 };

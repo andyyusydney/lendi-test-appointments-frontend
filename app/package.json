@@ -6,11 +6,13 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
+    "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "testing-library/jest-dom",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.11",
+    "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.16",
     "babel-jest": "^27.4.2",
     "jest": "^27.4.3",
@@ -21,12 +23,13 @@
   },
   "scripts": {
     "start": "parcel src/index.html",
-	"test": "jest"
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "react-redux": "^7.2.6"
   }
 }
