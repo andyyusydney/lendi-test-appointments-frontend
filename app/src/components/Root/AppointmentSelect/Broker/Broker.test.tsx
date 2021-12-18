@@ -1,10 +1,6 @@
-import {
-  screen,
-  render,
-  fireEvent,
-  within,
-} from "@testing-library/react";
-
+import { screen, render, fireEvent, within } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { store } from "../../../../redux/store";
 import Broker from "./Broker";
 
 const testBroker = {
@@ -15,7 +11,7 @@ const testBroker = {
 
 describe("Broker Component", () => {
   beforeEach(() => {
-    render(<Broker broker={testBroker} onSelect={jest.fn()} />);
+	render(<Provider store={store}><Broker broker={testBroker} /></Provider>);
   });
 
   test("should hide and show appointments on button click", () => {
